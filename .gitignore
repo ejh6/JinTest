@@ -1,0 +1,21 @@
+# Ignore the travelq.csv dataset
+travelq.csv
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore temporary and log files
+*.log
+*.tmp
+
+# Ignore data files
+*.csv
+!important_data.csv  # (If you need to track any specific CSV, remove this line if unnecessary)
+
+# Ignore virtual environments
+venv/
+.env
+
+# Ignore system files
+.DS_Store
+Thumbs.db
