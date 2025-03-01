@@ -8,9 +8,9 @@ travelq.csv
 *.log
 *.tmp
 
-# Ignore data files
-*.csv
-!important_data.csv  # (If you need to track any specific CSV, remove this line if unnecessary)
+# Ignore all CSV files in the data folder, but keep important_data.csv
+data/*.csv
+!important_data.csv
 
 # Ignore virtual environments
 venv/
