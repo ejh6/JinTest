@@ -1,19 +1,11 @@
-# Government Travel Expense Analysis
-https://open.canada.ca/data/en/dataset/009f9a49-c2d9-4d29-a6d4-1a228da335ce/resource/8282db2a-878f-475c-af10-ad56aa8fa72c
-## ⁉️Merging Dataset
-### I was unable to upload the dataset as the dataset is too big to be uploaded to github
-
-
-## 📌 Overview
-
-This project analyzes a dataset from the Government of Canada titled **"Proactive Disclosure - Travel Expenses"**. The dataset contains detailed records of travel expenses incurred by government officials. The goal of this project is to explore the dataset, generate insightful summaries, and visualize key trends.
+# Government Travel Expenses Analysis
 
 ## 📊 Data Source
+The dataset used for this assignment was obtained from the Government of Canada - Proactive Disclosure - Travel Expenses portal. It includes records of government officials' travel expenses, covering costs such as airfare, lodging, meals, and other transport expenses. The dataset was downloaded on January 28th.
 
-The dataset used for this assignment was obtained from the **Government of Canada - Proactive Disclosure - Travel Expenses** portal. It includes records of government officials' travel expenses, covering costs such as airfare, lodging, meals, and other transport expenses. The dataset was downloaded on **January 28th**.
+https://open.canada.ca/data/en/dataset/009f9a49-c2d9-4d29-a6d4-1a228da335ce/resource/8282db2a-878f-475c-af10-ad56aa8fa72c
 
 ## 🔹 Why This Dataset is Useful
-
 This dataset provides valuable insights into government spending on travel. By analyzing this data, we can:
 
 - Identify spending patterns and trends over time.
@@ -22,32 +14,60 @@ This dataset provides valuable insights into government spending on travel. By a
 - Make data-driven recommendations for cost optimization.
 
 ## 📁 Files in This Repository
-
-- `data_analysis.ipynb`: Jupyter Notebook with data exploration and visualization.
-- `data_analysis.html`: HTML export of the notebook.
-- `data_analysis.md`: Markdown version of the notebook.
-- `README.md`: Project overview and details about the dataset.
-
-## 📌 Summary of Analysis
-
-The dataset was analyzed to uncover key trends and patterns. Some highlights include:
-
-- **Major Expense Categories**: Airfare and lodging accounted for the highest spending.
-- **Trends Over Time**: A seasonal pattern was observed in government travel expenses.
-- **Outliers & Anomalies**: Certain trips had significantly higher costs, indicating potential inefficiencies.
+- **merged_travel_data_YYYY-MM-DD.csv**: Merged dataset saved with today's date.
+- **README.md**: Project overview and details about the dataset.
 
 ## 🔹 Data Cleaning and Handling
-
 To ensure accurate analysis, the dataset underwent preprocessing, including:
 
-- **Handling Missing Data**: Missing values were identified and addressed using appropriate techniques (e.g., filling with averages, dropping unusable rows).
-- **Dealing with Outliers**: Expense outliers were examined to determine if they should be removed or adjusted.
-- **Improving Readability**: Organization names were formatted to prevent display issues in tables and graphs.
+### Standardizing Columns:
+- Numeric columns (e.g., airfare, lodging, meals) were converted to numeric types and rounded to 2 decimal places.
+- Non-numeric columns were converted to strings for consistency.
 
-## 📈 Visualizations
+### Removing Unnecessary Columns:
+- Columns such as `disclosure_group`, `title_fr`, `purpose_fr`, and others were removed to simplify the dataset.
 
-Several graphs and charts were generated to illustrate the data, including:
+### Handling Outliers:
+- Outliers in numeric columns were identified using the Interquartile Range (IQR) method and replaced with NaN.
 
-- A **stacked bar chart** comparing travel expenses by organization.
-- A **time series analysis** highlighting changes in spending over time.
-- A **breakdown of expenses by category**.
+### Cleaning Text Data:
+- The `owner_org_title` column was cleaned to remove French translations, ensuring consistency in organization names.
+
+## 📈 Merging Datasets
+The primary dataset (`travelq.csv`) was merged with a secondary dataset (`orgdetail.csv`) to enrich the data with additional organization details. The merge was performed using a LEFT JOIN on the following columns:
+
+### Compound Key:
+The merge was performed using a compound key consisting of `owner_org_title` and `owner_org`. This ensures that each row in the merged dataset is uniquely identified by the combination of these two columns.
+
+### Merge Parameters:
+- **left**: The primary dataset (`dtravel`).
+- **right**: The secondary dataset (`otravel`).
+- **how**: left (to preserve all rows from the primary dataset).
+- **on**: `["owner_org_title", "owner_org"]` (the compound key).
+
+
+## 📊 Explanation of Variables
+
+- **dtravel**: The main dataset containing travel details.
+- **otravel**: The secondary dataset containing organization details.
+- **numeric_col**: List of columns that should be treated as numeric.
+- **non_numeric_col**: List of columns that should be treated as strings.
+- **columns_to_remove**: List of columns to be removed from the dataset.
+- **numerical_columns**: List of numeric columns for outlier detection.
+- **mmerge**: The merged dataset combining `dtravel` and `otravel`.
+
+## 🔹 Explanation of Join vs Merge
+- **Join**: A join operation combines rows from two or more tables based on a related column between them. It is typically used in SQL and can be thought of as a way to combine rows from different tables based on a condition.
+- **Merge**: A merge operation in pandas is similar to a join but is more flexible. It allows for more complex combinations of dataframes, including different types of joins (inner, outer, left, right). In this case, we used a LEFT JOIN to ensure that all rows from the `dtravel` dataset are preserved, even if there are no matching rows in the `otravel` dataset.
+
+## 📁 Final Output
+The merged dataset was saved as `merged_travel_data_YYYY-MM-DD.csv`, where `YYYY-MM-DD` is the current date. This file contains the combined data from both datasets, ready for further analysis or visualization.
+
+## 🔹 How to Run the Code
+1. Ensure the datasets (`travelq.csv` and `orgdetail.csv`) are in the same directory as the notebook.
+2. Open the `assignment6.ipynb` notebook in Jupyter or any compatible environment.
+3. Run the cells sequentially to perform data cleaning, merging, and analysis.
+4. The merged dataset will be saved as `merged_travel_data_YYYY-MM-DD.csv`.
+
+## 📌 Conclusion
+This project demonstrates the power of data cleaning and merging to uncover insights from complex datasets. By combining travel expense data with organization details, we can better understand spending patterns and identify areas for improvement.
